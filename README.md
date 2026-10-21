@@ -8,6 +8,7 @@ pages, and the controls around them.
 pnpm install
 pnpm dev       # http://localhost:4321
 pnpm build     # typecheck + static build into dist/
+pnpm test      # unit tests (src/**/*.test.ts, run by Node directly)
 pnpm format
 ```
 

@@ -12,6 +12,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "format": "prettier . --write",
+    "test": "node --test \"src/**/*.test.ts\"",
     "astro": "astro"
   },
   "dependencies": {
