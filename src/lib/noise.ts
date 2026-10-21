@@ -1,5 +1,3 @@
-export { createNoise2D, createNoise3D, createNoise4D } from 'simplex-noise'
-
 export interface FbmOptions {
   octaves?: number
   /** Amplitude multiplier per octave. */

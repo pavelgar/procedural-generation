@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
-import { createNoise2D, fbm } from '@/lib/noise'
+import { createNoise2D } from 'simplex-noise'
+import { fbm } from '@/lib/noise'
 import { defineSketch } from '@/lib/sketch'
 
 /** Width of the terrain in world units. */

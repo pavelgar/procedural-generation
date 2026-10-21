@@ -98,7 +98,7 @@ export default defineSketch({
 
 - `src/lib/random.ts`: the seeded `rng` (`range`, `int`, `pick`, `shuffle`,
   `gaussian`, `fork`, ...). Pass it to libraries that take a `() => number`.
-- `src/lib/noise.ts`: simplex noise and `fbm`.
+- `src/lib/noise.ts`: `fbm`, which layers any `(x, y) => number` noise.
 
 Add anything reusable there and import it with `@/lib/...`. Each sketch is
 its own chunk, so a project's dependencies only load on its page.
