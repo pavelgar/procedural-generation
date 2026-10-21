@@ -9,75 +9,32 @@ const projects = await getProjects()
 ---
 
 <Base>
-  <p class="muted">{site.description}</p>
+  <p class="text-muted">{site.description}</p>
 
-  <ul class="gallery">
+  <ul class="mt-10 grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-x-6 gap-y-8">
     {projects.map((project) => (
       <li>
-        <a href={href(`${project.id}/`)}>
-          <div class="media">
+        <a href={href(`${project.id}/`)} class="group block">
+          <div class="aspect-3/2 overflow-hidden rounded-lg bg-surface transition-transform duration-200 ease-out group-hover:-translate-y-1">
             {project.data.cover ? (
-              <Image src={project.data.cover} alt="" widths={[400, 800]} sizes="400px" />
+              <Image
+                src={project.data.cover}
+                alt=""
+                widths={[400, 800]}
+                sizes="400px"
+                class="size-full object-cover"
+              />
             ) : (
               hasSketch(project) && <SketchThumbnail project={project.id} />
             )}
           </div>
-          <h2>
+          <h2 class="mt-3 mb-1 text-lg font-semibold">
             {project.data.title}
-            {project.data.draft && <span class="muted">(draft)</span>}
+            {project.data.draft && <span class="text-sm font-normal text-muted">(draft)</span>}
           </h2>
-          <p class="muted">{project.data.description}</p>
+          <p class="text-muted">{project.data.description}</p>
         </a>
       </li>
     ))}
   </ul>
 </Base>
-
-<style>
-  .gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2rem 1.5rem;
-    margin: 2.5rem 0 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .gallery a {
-    display: block;
-    text-decoration: none;
-  }
-
-  .media {
-    aspect-ratio: 3 / 2;
-    overflow: hidden;
-    border-radius: 8px;
-    background: var(--surface);
-    transition: transform 0.2s ease-out;
-  }
-
-  .gallery a:hover .media {
-    transform: translateY(-3px);
-  }
-
-  .media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  h2 {
-    margin: 0.75rem 0 0.25rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-  }
-
-  h2 .muted {
-    font-size: 0.85rem;
-    font-weight: 400;
-  }
-
-  p {
-    margin: 0;
-  }
-</style>

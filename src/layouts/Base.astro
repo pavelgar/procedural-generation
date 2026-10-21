@@ -11,7 +11,7 @@ const { title, description = site.description } = Astro.props
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scheme-dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -21,28 +21,16 @@ const { title, description = site.description } = Astro.props
     <link rel="icon" href={href('favicon.ico')} />
     <title>{title ? `${title} · ${site.title}` : site.title}</title>
   </head>
-  <body>
-    <header class="container">
-      <a href={href()}>{site.title}</a>
-    </header>
-    <main class="container">
-      <slot />
-    </main>
+  <body class="bg-bg text-fg">
+    <div class="mx-auto max-w-7xl px-4 sm:px-8">
+      <header class="py-5">
+        <a href={href()} class="font-semibold tracking-wide">
+          {site.title}
+        </a>
+      </header>
+      <main class="pb-20">
+        <slot />
+      </main>
+    </div>
   </body>
 </html>
-
-<style>
-  header {
-    padding-block: 1.25rem;
-  }
-
-  header a {
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    text-decoration: none;
-  }
-
-  main {
-    padding-bottom: 5rem;
-  }
-</style>

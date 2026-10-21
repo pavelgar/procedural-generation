@@ -17,63 +17,24 @@ interface Props {
 const { project, controls = false, syncUrl = false, params, seed } = Astro.props
 ---
 
+{/* The stage's height is relative to this element's width (cqi), via @container. */}
 <sketch-view
   data-project={project}
   data-params={params && JSON.stringify(params)}
   data-seed={seed}
   data-sync-url={syncUrl ? '' : undefined}
+  class:list={[
+    'not-prose @container my-6 grid gap-4',
+    controls && 'md:grid-cols-[minmax(0,1fr)_280px]',
+  ]}
 >
-  <div class="stage" data-stage></div>
-  {controls && <div class="panel" data-panel></div>}
+  <div
+    data-stage
+    class="grid h-[min(74vh,100cqi)] place-items-center overflow-hidden rounded-lg bg-surface md:h-[min(74vh,75cqi)] data-error:p-4 data-error:font-mono data-error:whitespace-pre-wrap data-error:text-red-300"
+  ></div>
+  {controls && <div data-panel class="self-start"></div>}
 </sketch-view>
 
 <script>
   import '@/lib/elements'
 </script>
-
-<style>
-  sketch-view {
-    display: grid;
-    gap: 1rem;
-    margin-block: 1.5rem;
-    container-type: inline-size;
-  }
-
-  sketch-view:has(.panel) {
-    grid-template-columns: minmax(0, 1fr) 280px;
-  }
-
-  .stage {
-    height: min(74vh, 75cqi);
-    display: grid;
-    place-items: center;
-    overflow: hidden;
-    border-radius: 8px;
-    background: var(--surface);
-  }
-
-  .stage[data-error] {
-    padding: 1rem;
-    color: #ff8a80;
-    font-family: var(--mono);
-    white-space: pre-wrap;
-  }
-
-  .stage :global(canvas) {
-    display: block;
-  }
-
-  .panel {
-    align-self: start;
-  }
-
-  @media (max-width: 800px) {
-    sketch-view:has(.panel) {
-      grid-template-columns: minmax(0, 1fr);
-    }
-
-    .stage {
-      height: min(74vh, 100cqi);
-    }
-  }
-</style>

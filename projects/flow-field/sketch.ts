@@ -1,3 +1,4 @@
+import { mapValues } from 'es-toolkit'
 import { createNoise2D } from 'simplex-noise'
 import { defineSketch } from '@/lib/sketch'
 
@@ -21,7 +22,7 @@ export default defineSketch({
     opacity: { value: 0.6, min: 0.05, max: 1 },
     palette: {
       value: 'dusk',
-      options: Object.fromEntries(Object.keys(palettes).map((name) => [name, name])),
+      options: mapValues(palettes, (_, name) => name),
     },
   },
 

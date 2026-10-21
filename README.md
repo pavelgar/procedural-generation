@@ -104,6 +104,11 @@ export default defineSketch({
 Add anything reusable there and import it with `@/lib/...`. Each sketch is
 its own chunk, so a project's dependencies only load on its page.
 
+For general utilities (`clamp`, `range`, `mapValues`, `debounce`, ...) use
+[es-toolkit](https://es-toolkit.dev) before writing your own. Its random
+helpers (`shuffle`, `sample`, `random`, `randomInt`) use `Math.random`, so in a
+sketch they ignore the seed: use `rng` for anything random.
+
 ## Layout
 
 - `projects/`: your work.
@@ -112,6 +117,11 @@ its own chunk, so a project's dependencies only load on its page.
   URL sync.
 - `src/pages/`: the gallery (`index.astro`) and project pages (`[slug].astro`).
 - `src/site.ts`: site title and description.
+- `src/styles/global.css`: Tailwind setup and the theme colors (`bg`, `surface`,
+  `fg`, `muted`, `accent`). Write-ups are styled by the typography plugin
+  (`prose`); enter/exit animations come from
+  [tw-animate-css](https://github.com/Wombosvideo/tw-animate-css)
+  (`animate-in fade-in`, ...).
 
 ## Deploying
 

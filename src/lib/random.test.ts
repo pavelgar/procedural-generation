@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict'
 import { describe, test } from 'node:test'
+import { mean, range } from 'es-toolkit'
 import { createRandom } from './random.ts'
 
-const draw = <T>(count: number, fn: (_: unknown, index: number) => T) =>
-  Array.from({ length: count }, fn)
+const draw = <T>(count: number, fn: () => T) => Array.from({ length: count }, fn)
 
 describe('createRandom', () => {
   // Shared links and sketches' default seeds depend on these exact numbers.
@@ -62,25 +62,22 @@ describe('createRandom', () => {
   })
 
   test('shuffle permutes in place', () => {
-    const items = draw(50, (_, i) => i)
+    const items = range(50)
     const shuffled = createRandom(6).shuffle(items)
     assert.equal(shuffled, items)
     assert.deepEqual(
       [...shuffled].sort((a, b) => a - b),
-      draw(50, (_, i) => i),
+      range(50),
     )
-    assert.notDeepEqual(
-      shuffled,
-      draw(50, (_, i) => i),
-    )
+    assert.notDeepEqual(shuffled, range(50))
   })
 
   test('gaussian has the requested mean and spread', () => {
     const rng = createRandom(7)
     const values = draw(20_000, () => rng.gaussian(10, 2))
-    const mean = values.reduce((sum, v) => sum + v, 0) / values.length
-    const sd = Math.sqrt(values.reduce((sum, v) => sum + (v - mean) ** 2, 0) / values.length)
-    assert.ok(Math.abs(mean - 10) < 0.05, `mean ${mean}`)
+    const average = mean(values)
+    const sd = Math.sqrt(mean(values.map((v) => (v - average) ** 2)))
+    assert.ok(Math.abs(average - 10) < 0.05, `mean ${average}`)
     assert.ok(Math.abs(sd - 2) < 0.05, `sd ${sd}`)
   })
 

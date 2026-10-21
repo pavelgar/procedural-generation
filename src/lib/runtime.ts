@@ -1,3 +1,4 @@
+import { clamp, debounce, mapValues } from 'es-toolkit'
 import { Pane } from 'tweakpane'
 import { createRandom, randomSeed } from './random'
 import type { DrawSketch, Params, Sketch, SketchInstance, Values } from './sketch'
@@ -7,7 +8,7 @@ type AnyValues = Values<Params>
 const MAX_PIXEL_RATIO = 2
 
 export function defaultValues(sketch: Sketch): AnyValues {
-  return Object.fromEntries(Object.entries(sketch.params ?? {}).map(([key, p]) => [key, p.value]))
+  return mapValues(sketch.params ?? {}, (param) => param.value)
 }
 
 export interface RunnerOptions {
@@ -123,7 +124,7 @@ export class SketchRunner {
     if (dirty.render || resized || sketch.animate) {
       dirty.render = false
       const time = sketch.animate ? (now - this.startTime) / 1000 : 0
-      instance.render?.({ time, dt: Math.min(Math.max(time - this.lastTime, 0), 0.1) })
+      instance.render?.({ time, dt: clamp(time - this.lastTime, 0, 0.1) })
       this.lastTime = time
     }
   }
@@ -235,6 +236,7 @@ export function attachControls(
 
   return () => {
     window.removeEventListener('keydown', onKey)
+    writeUrlSoon.cancel()
     pane.dispose()
   }
 }
@@ -291,12 +293,4 @@ function download(url: string, filename: string) {
   link.href = url
   link.download = filename
   link.click()
-}
-
-function debounce(fn: () => void, ms: number) {
-  let timer: ReturnType<typeof setTimeout>
-  return () => {
-    clearTimeout(timer)
-    timer = setTimeout(fn, ms)
-  }
 }

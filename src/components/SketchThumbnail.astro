@@ -5,32 +5,12 @@ interface Props {
 }
 ---
 
-<sketch-thumbnail data-project={Astro.props.project}></sketch-thumbnail>
+{/* The canvas and then the image are created by elements.ts, hence the [&_img] styles. */}
+<sketch-thumbnail
+  data-project={Astro.props.project}
+  class="grid size-full place-items-center overflow-hidden [&_img]:size-full [&_img]:animate-in [&_img]:fade-in [&_img]:duration-400 [&_img]:ease-out [&_img]:object-cover"
+></sketch-thumbnail>
 
 <script>
   import '@/lib/elements'
 </script>
-
-<style>
-  sketch-thumbnail {
-    display: grid;
-    place-items: center;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  sketch-thumbnail :global(img) {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    animation: fade-in 0.4s ease-out;
-  }
-
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-    }
-  }
-</style>
