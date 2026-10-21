@@ -1,0 +1,83 @@
+---
+import { Image } from 'astro:assets'
+import SketchThumbnail from '@/components/SketchThumbnail.astro'
+import Base from '@/layouts/Base.astro'
+import { getProjects, hasSketch } from '@/lib/projects'
+import { href, site } from '@/site'
+
+const projects = await getProjects()
+---
+
+<Base>
+  <p class="muted">{site.description}</p>
+
+  <ul class="gallery">
+    {projects.map((project) => (
+      <li>
+        <a href={href(`${project.id}/`)}>
+          <div class="media">
+            {project.data.cover ? (
+              <Image src={project.data.cover} alt="" widths={[400, 800]} sizes="400px" />
+            ) : (
+              hasSketch(project) && <SketchThumbnail project={project.id} />
+            )}
+          </div>
+          <h2>
+            {project.data.title}
+            {project.data.draft && <span class="muted">(draft)</span>}
+          </h2>
+          <p class="muted">{project.data.description}</p>
+        </a>
+      </li>
+    ))}
+  </ul>
+</Base>
+
+<style>
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem 1.5rem;
+    margin: 2.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .gallery a {
+    display: block;
+    text-decoration: none;
+  }
+
+  .media {
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border-radius: 8px;
+    background: var(--surface);
+    transition: transform 0.2s ease-out;
+  }
+
+  .gallery a:hover .media {
+    transform: translateY(-3px);
+  }
+
+  .media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  h2 {
+    margin: 0.75rem 0 0.25rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  h2 .muted {
+    font-size: 0.85rem;
+    font-weight: 400;
+  }
+
+  p {
+    margin: 0;
+  }
+</style>

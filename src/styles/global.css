@@ -1,0 +1,63 @@
+:root {
+  color-scheme: dark;
+  --bg: #0e0e10;
+  --surface: #17171b;
+  --border: #2a2a30;
+  --text: #e8e6e3;
+  --muted: #8d8b93;
+  --accent: #f4a259;
+  --mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+
+  font-family: system-ui, sans-serif;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+code,
+pre {
+  font-family: var(--mono);
+  font-size: 0.9em;
+}
+
+.container {
+  width: min(100% - 2rem, 1200px);
+  margin-inline: auto;
+}
+
+.prose {
+  max-width: 70ch;
+}
+
+.prose a {
+  color: var(--accent);
+}
+
+.prose pre {
+  padding: 1rem;
+  overflow-x: auto;
+  border-radius: 8px;
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+}
+
+.muted {
+  color: var(--muted);
+}

@@ -1,0 +1,18 @@
+---
+title: Island terrain
+description: A low-poly island from layered noise, rendered with three.js.
+date: 2026-10-21
+tags: [noise, 3d, three.js]
+---
+
+The height of each vertex comes from fractal noise: several octaves of simplex
+noise stacked at rising frequencies and falling amplitudes. **Octaves** adds
+finer detail. **Persistence** sets how much each finer layer counts.
+
+On its own that gives endless rolling hills. To make an island, the height is
+pulled down by the square of the distance from the center, so the edges sink
+under the **water level** and the middle rises out of it. Everything below the
+water is flattened and tinted by depth. Land is colored in bands by height
+above the shore.
+
+Drag to orbit, scroll to zoom.

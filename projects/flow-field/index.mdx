@@ -1,0 +1,19 @@
+---
+title: Flow field
+description: Thousands of lines drifting along the angles of a noise field.
+date: 2026-10-22
+tags: [noise, 2d]
+---
+
+Each line starts at a random point and takes small steps. At every step it
+turns to face the angle that a simplex noise field gives at that spot. Nearby
+points get similar angles, so neighbouring lines run together like currents.
+
+**Turbulence** sets how far the noise can turn a line. Low values give long,
+gentle currents:
+
+<Sketch project="flow-field" seed={7} params={{ turbulence: 0.4, lines: 800 }} />
+
+High values curl the lines into whorls:
+
+<Sketch project="flow-field" seed={7} params={{ turbulence: 3.5, lines: 800 }} />

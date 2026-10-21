@@ -1,0 +1,52 @@
+---
+import type { InferGetStaticPropsType } from 'astro'
+import { render } from 'astro:content'
+import Sketch from '@/components/Sketch.astro'
+import Base from '@/layouts/Base.astro'
+import { getProjects, hasSketch } from '@/lib/projects'
+
+export async function getStaticPaths() {
+  const projects = await getProjects()
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }))
+}
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>
+
+const { project } = Astro.props
+const { title, description, date, tags } = project.data
+const { Content } = await render(project)
+---
+
+<Base title={title} description={description}>
+  <h1>{title}</h1>
+  <p class="muted">
+    <time datetime={date.toISOString()}>
+      {date.toLocaleDateString('en-US', { dateStyle: 'long', timeZone: 'UTC' })}
+    </time>
+    {tags.map((tag) => (
+      <span class="tag">{tag}</span>
+    ))}
+  </p>
+
+  {hasSketch(project) && <Sketch project={project.id} controls syncUrl />}
+
+  <article class="prose">
+    <Content components={{ Sketch }} />
+  </article>
+</Base>
+
+<style>
+  h1 {
+    margin-bottom: 0.25rem;
+  }
+
+  .tag {
+    margin-left: 0.75rem;
+    font-family: var(--mono);
+    font-size: 0.85em;
+  }
+
+  .tag::before {
+    content: '#';
+  }
+</style>

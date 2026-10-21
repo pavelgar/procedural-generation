@@ -1,0 +1,79 @@
+---
+// A live sketch from projects/<project>/sketch.ts. Inside a project's index.mdx
+// it's available without an import, e.g.
+//   <Sketch project="flow-field" params={{ turbulence: 0.4 }} seed={7} />
+interface Props {
+  /** Folder name under projects/. */
+  project: string
+  /** Show the control panel. */
+  controls?: boolean
+  /** Keep the seed and params in the page URL. One per page. */
+  syncUrl?: boolean
+  /** Param overrides, e.g. to show one stage of an algorithm in a write-up. */
+  params?: Record<string, unknown>
+  seed?: number
+}
+
+const { project, controls = false, syncUrl = false, params, seed } = Astro.props
+---
+
+<sketch-view
+  data-project={project}
+  data-params={params && JSON.stringify(params)}
+  data-seed={seed}
+  data-sync-url={syncUrl ? '' : undefined}
+>
+  <div class="stage" data-stage></div>
+  {controls && <div class="panel" data-panel></div>}
+</sketch-view>
+
+<script>
+  import '@/lib/elements'
+</script>
+
+<style>
+  sketch-view {
+    display: grid;
+    gap: 1rem;
+    margin-block: 1.5rem;
+    container-type: inline-size;
+  }
+
+  sketch-view:has(.panel) {
+    grid-template-columns: minmax(0, 1fr) 280px;
+  }
+
+  .stage {
+    height: min(74vh, 75cqi);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border-radius: 8px;
+    background: var(--surface);
+  }
+
+  .stage[data-error] {
+    padding: 1rem;
+    color: #ff8a80;
+    font-family: var(--mono);
+    white-space: pre-wrap;
+  }
+
+  .stage :global(canvas) {
+    display: block;
+  }
+
+  .panel {
+    align-self: start;
+  }
+
+  @media (max-width: 800px) {
+    sketch-view:has(.panel) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .stage {
+      height: min(74vh, 100cqi);
+    }
+  }
+</style>
