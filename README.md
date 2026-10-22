@@ -6,7 +6,7 @@ pages, and the controls around them.
 
 ```sh
 pnpm install
-pnpm dev       # http://localhost:4321
+pnpm dev       # http://localhost:4321/procedural-generation/
 pnpm build     # typecheck + static build into dist/
 pnpm test      # unit tests (src/**/*.test.ts, run by Node directly)
 pnpm lint      # ESLint, including the seeded-randomness rules
@@ -130,7 +130,10 @@ doing random work accepts an `rng` (like simplex-noise does).
 
 ## Deploying
 
-Not set up yet. `pnpm build` writes a fully static site to `dist/`, which
-works on any static host. To serve it from a subpath (e.g. GitHub Pages at
-`/<repo>/`), set `site` and `base` in `astro.config.mjs`. Links go through
-`href()` from `src/site.ts`, so they already pick up the base.
+Every push to `main` deploys to
+https://pavelgar.github.io/procedural-generation/ through
+`.github/workflows/deploy.yml`. Lint, tests and the typecheck run first, so a
+failing check stops the deploy.
+
+The site is served under `base` from `astro.config.mjs`. Link to site pages
+with `href()` from `src/site.ts` so the base is included.
