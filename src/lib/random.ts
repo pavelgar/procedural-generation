@@ -54,5 +54,6 @@ export function createRandom(seed: number): Random {
 }
 
 export function randomSeed(): number {
+  // eslint-disable-next-line no-restricted-properties -- picking a new seed is the one unseeded choice
   return Math.floor(Math.random() * 1_000_000)
 }

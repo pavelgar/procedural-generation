@@ -100,6 +100,9 @@ export interface SetupSketch<P extends Params> extends SketchOptions<P> {
 
 export type Sketch<P extends Params = Params> = DrawSketch<P> | SetupSketch<P>
 
-export function defineSketch<P extends Params = {}>(sketch: Sketch<P>): Sketch<P> {
+// The default applies when there are no params: reading any param is then a type error.
+export function defineSketch<P extends Params = Record<never, never>>(
+  sketch: Sketch<P>,
+): Sketch<P> {
   return sketch
 }

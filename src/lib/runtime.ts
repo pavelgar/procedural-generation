@@ -1,4 +1,4 @@
-import { clamp, debounce, mapValues } from 'es-toolkit'
+import { clamp, debounce, mapValues, omit } from 'es-toolkit'
 import { Pane } from 'tweakpane'
 import { createRandom, randomSeed } from './random'
 import type { DrawSketch, Params, Sketch, SketchInstance, Values } from './sketch'
@@ -209,8 +209,8 @@ export function attachControls(
 
   const params = Object.entries(runner.sketch.params ?? {})
   if (params.length) pane.addBlade({ view: 'separator' })
-  for (const [key, { value: _, ...options }] of params) {
-    pane.addBinding(runner.values, key, options)
+  for (const [key, param] of params) {
+    pane.addBinding(runner.values, key, omit(param, ['value']))
   }
 
   pane.addBlade({ view: 'separator' })

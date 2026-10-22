@@ -9,6 +9,7 @@ pnpm install
 pnpm dev       # http://localhost:4321
 pnpm build     # typecheck + static build into dist/
 pnpm test      # unit tests (src/**/*.test.ts, run by Node directly)
+pnpm lint      # ESLint, including the seeded-randomness rules
 pnpm format
 ```
 
@@ -105,9 +106,13 @@ Add anything reusable there and import it with `@/lib/...`. Each sketch is
 its own chunk, so a project's dependencies only load on its page.
 
 For general utilities (`clamp`, `range`, `mapValues`, `debounce`, ...) use
-[es-toolkit](https://es-toolkit.dev) before writing your own. Its random
-helpers (`shuffle`, `sample`, `random`, `randomInt`) use `Math.random`, so in a
-sketch they ignore the seed: use `rng` for anything random.
+[es-toolkit](https://es-toolkit.dev) before writing your own.
+
+All randomness must come from `rng`, or the same seed stops drawing the same
+picture. `pnpm lint` enforces this: it rejects `Math.random` and es-toolkit's
+`Math.random`-based helpers (`shuffle`, `sample`, `sampleSize`, `random`,
+`randomInt`). It can't see inside other libraries, so check that any library
+doing random work accepts an `rng` (like simplex-noise does).
 
 ## Layout
 
